@@ -25,8 +25,6 @@ class ListViewController: UIViewController {
         super.viewDidLoad()
         upadteUI()
         getDataFromFirestore()
-        
-        
     }
     
     
@@ -101,6 +99,31 @@ extension ListViewController : UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         cell.textLabel?.text = placeNameArray[indexPath.row]
         return cell
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let placeIdToDelete = placeIdArray[indexPath.row]
+            deleteDataFromFirestore(placeId: placeIdToDelete)
+                    
+                    // Veriyi yerel veri kaynağından (placeNameArray) ve tableView'dan kaldırın.
+            placeNameArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+        }
+        func deleteDataFromFirestore(placeId: String) {
+            let firestore = Firestore.firestore()
+            let placeRef = firestore.collection("DataPlace").document(placeId)
+            
+            placeRef.delete { error in
+                if let error = error {
+                    print("Firebase veri silme hatası: \(error.localizedDescription)")
+                } else {
+                    print("Firebase veri başarıyla silindi.")
+                    // Silme işlemi başarılı olduğunda gerektiğiniz başka işlemleri de burada gerçekleştirebilirsiniz.
+                }
+            }
+        }
+
     }
     
     

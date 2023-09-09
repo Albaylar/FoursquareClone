@@ -7,17 +7,25 @@
 
 import UIKit
 
-class editViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+
+class editViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var placeImageView: UIImageView!
     @IBOutlet weak var atmosphereText: UITextField!
     @IBOutlet weak var typeText: UITextField!
     @IBOutlet weak var nameText: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         placeImageView.isUserInteractionEnabled = true
         let imageTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTap))
-        view.addGestureRecognizer(imageTapRecognizer)
+        placeImageView.addGestureRecognizer(imageTapRecognizer)
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        self.view.addGestureRecognizer(gestureRecognizer)
+    }
+
+    @objc func hideKeyboard(){
+        self.view.endEditing(true)
     }
     @objc func imageTap(){
         let picker = UIImagePickerController()

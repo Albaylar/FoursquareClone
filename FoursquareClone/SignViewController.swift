@@ -16,12 +16,10 @@ class SignViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        
-        let gestureRecongnizer = UIGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        self.view.addGestureRecognizer(gestureRecongnizer)
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        self.view.addGestureRecognizer(gestureRecognizer)
     }
+
     
     @objc func hideKeyboard(){
         self.view.endEditing(true)
